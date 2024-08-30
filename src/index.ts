@@ -1,29 +1,41 @@
+import { DrawObjects } from "./drawObjects";
+
 const canvas = document.getElementById('my-canvas') as HTMLCanvasElement;
 const ctx = canvas?.getContext('2d');
-console.log(ctx);
+
+const startButton = document.getElementById('start-button') as HTMLButtonElement;
+let interval: NodeJS.Timeout;
 if (!ctx) {
     throw new Error('Canvas not found');
 }
-ctx.beginPath();
-ctx.rect(20, 40, 50, 50);
-ctx.fillStyle = "#FF0000";
-ctx.fill();
-ctx.closePath();
 
-ctx.beginPath();
-ctx.arc(240, 169, 20, 0, Math.PI * 2, false);
-ctx.fillStyle = "green";
-ctx.fill();
-ctx.closePath();
+startButton.addEventListener('click', () => {
+    startGame();
+});
 
-ctx.beginPath();
-ctx.rect(160, 10, 100, 40);
-ctx.fillStyle = "rgb(0 0 255 / 50%)";
-ctx.stroke();
-ctx.closePath();
+let drawObject: DrawObjects;
+const startGame = () => {
+    drawObject = new DrawObjects(canvas, ctx, interval);
+    interval = setInterval(() => drawObject.drawBall(), 10);
+}
 
-ctx.beginPath();
-ctx.rect(200, 150, 100, 100);
-ctx.fillStyle = "rgba(0, 255, 0, 0.5)";
-ctx.fill();
-ctx.closePath();
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+function keyDownHandler(e: KeyboardEvent) {
+    if (e.key === "Right" || e.key === "ArrowRight") {
+        drawObject.paddle.rightPressed = true;
+        drawObject.paddle.movePaddle(canvas.width);
+    } else if (e.key === "Left" || e.key === "ArrowLeft") {
+        drawObject.paddle.leftPressed = true;
+        drawObject.paddle.movePaddle(canvas.width);
+    }
+}
+
+function keyUpHandler(e: KeyboardEvent) {
+    if (e.key === "Right" || e.key === "ArrowRight") {
+        drawObject.paddle.rightPressed = false;
+    } else if (e.key === "Left" || e.key === "ArrowLeft") {
+        drawObject.paddle.leftPressed = false;
+    }
+}
