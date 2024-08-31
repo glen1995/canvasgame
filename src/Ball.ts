@@ -23,7 +23,7 @@ export class Ball {
         this.y += this.dy;
     }
 
-    public detectCollision(paddleX: number, paddleY: number, paddleWidth: number) {
+    public detectCollision(paddleX: number, paddleWidth: number) {
         if (this.x + this.dx > this.canvasWidth - this.ballRadius || this.x + this.dx < this.ballRadius) {
             this.dx = -this.dx;
         }
@@ -37,6 +37,11 @@ export class Ball {
                 return true
             }
         }
+    }
+
+    public resetBall(canvasWidth: number, canvasHeight: number) {
+        this.x = canvasWidth;
+        this.y = canvasHeight;
     }
 
     public drawBall(ctx: CanvasRenderingContext2D) {

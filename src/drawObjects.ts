@@ -47,12 +47,15 @@ export class DrawObjects {
     }
 
     private calculateBoundary() {
-        if (this.ball.detectCollision(this.paddleX, this.paddleY, this.paddleWidth)) {
-            clearInterval(this.interval);
-            alert("GAME OVER");
+        if (this.ball.detectCollision(this.paddleX, this.paddleWidth)) {
+            this.ball.resetBall(this.canvasWidth / 2, this.canvasHeight - 30);
             document.location.reload();
+            alert("Game Over")
+            clearInterval(this.interval);
         }
     }
+
+
 
     public drawBall() {
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
