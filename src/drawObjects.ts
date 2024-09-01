@@ -1,4 +1,5 @@
 import { Ball } from "./Ball";
+import { Brick } from "./Brick";
 import { Paddle } from "./Paddle";
 
 export class DrawObjects {
@@ -22,7 +23,9 @@ export class DrawObjects {
     private interval: NodeJS.Timeout;
 
     private ball: Ball;
+    private brick: Brick;
     public paddle: Paddle;
+
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, interval: NodeJS.Timeout) {
         this.ballRadius = 10;
         this.ctx = ctx;
@@ -43,6 +46,7 @@ export class DrawObjects {
         this.interval = interval;
 
         this.ball = new Ball(this.x, this.y, this.dx, this.dy, this.ballRadius, this.canvasWidth, this.canvasHeight)
+        this.brick = new Brick(3, 5, 75, 20, 10, 30, 30);
         this.paddle = new Paddle(this.paddleX, this.paddleY, this.paddleWidth, this.paddleHeight)
     }
 
@@ -55,11 +59,10 @@ export class DrawObjects {
         }
     }
 
-
-
     public drawBall() {
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
         this.ball.drawBall(this.ctx)
+        this.brick.drawBricks(this.ctx)
         this.paddle.drawPaddle(this.ctx, this.canvasHeight);
         this.calculateBoundary();
     }
