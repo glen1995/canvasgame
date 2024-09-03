@@ -47,4 +47,15 @@ export class Brick {
             }
         }
     }
+
+    public detectBrickCollision(x: number, y: number) {
+        for (let c = 0; c < this.brickColumnCount; c++) {
+            for (let r = 0; r < this.brickRowCount; r++) {
+                const brick = this.bricks[c][r];
+                if (x > brick.x && x < brick.x + this.brickWidth && y > brick.y && y < (brick.y + this.brickHeight)) {
+                    return true;
+                }
+            }
+        }
+    }
 }

@@ -9,11 +9,6 @@ export class DrawObjects {
     private readonly canvas: HTMLCanvasElement;
     private readonly canvasHeight: number;
     private readonly canvasWidth: number;
-    // calculate boundary and ball position variables
-    private x: number;
-    private y: number;
-    private dy: number;
-    private dx: number;
     // paddleboard variables
     private readonly paddleHeight: number;
     private readonly paddleWidth: number;
@@ -34,24 +29,19 @@ export class DrawObjects {
         this.canvasHeight = canvas.height;
         this.canvasWidth = canvas.width;
 
-        this.x = canvas.width / 2;
-        this.y = canvas.height - 30;
-        this.dx = 4;
-        this.dy = -4;
-
         this.paddleHeight = 10;
         this.paddleWidth = 75;
         this.paddleX = (canvas.width - this.paddleWidth) / 2;
         this.paddleY = canvas.height - this.paddleHeight;
         this.interval = interval;
 
-        this.ball = new Ball(this.x, this.y, this.dx, this.dy, this.ballRadius, this.canvasWidth, this.canvasHeight)
+        this.ball = new Ball(this.ballRadius, this.canvasWidth, this.canvasHeight)
         this.brick = new Brick(3, 5, 75, 20, 10, 30, 30);
         this.paddle = new Paddle(this.paddleX, this.paddleY, this.paddleWidth, this.paddleHeight)
     }
 
     private calculateBoundary() {
-        if (this.ball.detectCollision(this.paddleX, this.paddleWidth)) {
+        if (this.ball.detectBoundaryCollision(this.paddleX, this.paddleWidth)) {
             this.ball.resetBall(this.canvasWidth / 2, this.canvasHeight - 30);
             document.location.reload();
             alert("Game Over")
@@ -65,6 +55,10 @@ export class DrawObjects {
         this.brick.drawBricks(this.ctx)
         this.paddle.drawPaddle(this.ctx, this.canvasHeight);
         this.calculateBoundary();
+        const [ballPositionX, ballPositionY] = this.ball.getBallPosition();
+        if (this.brick.detectBrickCollision(ballPositionX, ballPositionY)) {
+            this.ball.reverseDirection();
+        }
     }
 
 }

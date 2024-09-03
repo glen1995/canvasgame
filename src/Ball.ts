@@ -8,14 +8,18 @@ export class Ball {
     private readonly canvasHeight: number;
     private readonly canvasWidth: number;
 
-    constructor(x: number, y: number, dx: number, dy: number, ballRadius: number, canvasWidth: number, canvasHeight: number) {
+    constructor(ballRadius: number, canvasWidth: number, canvasHeight: number) {
         this.ballRadius = ballRadius;
-        this.x = x;
-        this.y = y;
-        this.dx = dx;
-        this.dy = dy;
+        this.x = canvasWidth / 3;
+        this.y = canvasHeight - 30;
+        this.dx = 4;
+        this.dy = -4;
         this.canvasHeight = canvasHeight;
         this.canvasWidth = canvasWidth
+    }
+
+    public getBallPosition() {
+        return [this.x, this.y]
     }
 
     private moveBall() {
@@ -23,7 +27,11 @@ export class Ball {
         this.y += this.dy;
     }
 
-    public detectCollision(paddleX: number, paddleWidth: number) {
+    public reverseDirection() {
+        this.dy = -this.dy
+    }
+
+    public detectBoundaryCollision(paddleX: number, paddleWidth: number) {
         if (this.x + this.dx > this.canvasWidth - this.ballRadius || this.x + this.dx < this.ballRadius) {
             this.dx = -this.dx;
         }
