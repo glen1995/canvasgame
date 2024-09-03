@@ -6,7 +6,7 @@ export class Brick {
     private readonly brickPadding: number = 0;
     private readonly brickOffsetTop: number = 0;
     private readonly brickOffsetLeft: number = 0;
-    private bricks: { x: number; y: number; }[][] = [];
+    private bricks: { x: number; y: number; status?: boolean }[][] = [];
     constructor(
         brickRowCount: number,
         brickColumnCount: number,
@@ -26,7 +26,7 @@ export class Brick {
         for (let i = 0; i < this.brickColumnCount; i++) {
             this.bricks[i] = [];
             for (let j = 0; j < this.brickRowCount; j++) {
-                this.bricks[i][j] = { x: 0, y: 0 };
+                this.bricks[i][j] = { x: 0, y: 0, status: true };
             }
         }
 
@@ -35,15 +35,18 @@ export class Brick {
     public drawBricks(ctx: CanvasRenderingContext2D) {
         for (let c = 0; c < this.brickColumnCount; c++) {
             for (let r = 0; r < this.brickRowCount; r++) {
-                const brickX = c * (this.brickWidth + this.brickPadding) + this.brickOffsetLeft
-                const brickY = r * (this.brickHeight + this.brickPadding) + this.brickOffsetTop
-                this.bricks[c][r].x = brickX;
-                this.bricks[c][r].y = brickY;
-                ctx.beginPath();
-                ctx.rect(brickX, brickY, this.brickWidth, this.brickHeight);
-                ctx.fillStyle = "red";
-                ctx.fill();
-                ctx.closePath();
+                const brick = this.bricks[c][r]
+                if (brick.status) {
+                    const brickX = c * (this.brickWidth + this.brickPadding) + this.brickOffsetLeft
+                    const brickY = r * (this.brickHeight + this.brickPadding) + this.brickOffsetTop
+                    brick.x = brickX;
+                    brick.y = brickY;
+                    ctx.beginPath();
+                    ctx.rect(brickX, brickY, this.brickWidth, this.brickHeight);
+                    ctx.fillStyle = "red";
+                    ctx.fill();
+                    ctx.closePath();
+                }
             }
         }
     }
@@ -53,6 +56,7 @@ export class Brick {
             for (let r = 0; r < this.brickRowCount; r++) {
                 const brick = this.bricks[c][r];
                 if (x > brick.x && x < brick.x + this.brickWidth && y > brick.y && y < (brick.y + this.brickHeight)) {
+                    brick.status = false
                     return true;
                 }
             }

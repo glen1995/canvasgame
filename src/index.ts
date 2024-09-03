@@ -21,7 +21,7 @@ pauseButton.addEventListener('click', () => {
 let drawObject: DrawObjects;
 const startGame = () => {
     drawObject = new DrawObjects(canvas, ctx, interval);
-    interval = setInterval(() => drawObject.drawBall(), 200);
+    interval = setInterval(() => drawObject.drawBall(), 10);
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
