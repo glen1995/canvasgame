@@ -36,11 +36,11 @@ export class Ball {
             this.dx = -this.dx;
         }
         if (this.y + this.dy < this.ballRadius) {
-            this.dy = -this.dy;
+            this.reverseDirection();
         }
         if (this.y + this.dy > this.canvasHeight - this.ballRadius) {
             if (this.x > paddleX && this.x < paddleX + paddleWidth) {
-                this.dy = -this.dy;
+                this.reverseDirection();
             } else {
                 return true
             }

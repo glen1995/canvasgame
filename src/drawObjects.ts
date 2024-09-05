@@ -41,7 +41,7 @@ export class DrawObjects {
     }
 
     private calculateBoundary() {
-        if (this.ball.detectBoundaryCollision(this.paddleX, this.paddleWidth)) {
+        if (this.ball.detectBoundaryCollision(this.paddle.getPaddleXPosition(), this.paddleWidth)) {
             this.ball.resetBall(this.canvasWidth / 2, this.canvasHeight - 30);
             document.location.reload();
             alert("Game Over")

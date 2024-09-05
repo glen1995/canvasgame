@@ -17,11 +17,15 @@ export class Paddle {
         this.leftPressed = false;
     }
 
+    public getPaddleXPosition() {
+        return this.paddleX
+    }
+
     public movePaddle(canvasWidth: number) {
         if (this.rightPressed && this.paddleX < canvasWidth - this.paddleWidth) {
-            this.paddleX = this.paddleX + 7;
+            this.paddleX = this.paddleX + 20;
         } else if (this.leftPressed && this.paddleX > 0) {
-            this.paddleX = this.paddleX - 7;
+            this.paddleX = this.paddleX - 20;
         }
     }
 

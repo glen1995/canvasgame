@@ -21,7 +21,7 @@ pauseButton.addEventListener('click', () => {
 let drawObject: DrawObjects;
 const startGame = () => {
     drawObject = new DrawObjects(canvas, ctx, interval);
-    interval = setInterval(() => drawObject.drawBall(), 10);
+    interval = setInterval(() => drawObject.drawBall(), 20);
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
@@ -29,9 +29,11 @@ document.addEventListener("keyup", keyUpHandler, false);
 
 function keyDownHandler(e: KeyboardEvent) {
     if (e.key === "Right" || e.key === "ArrowRight") {
+        if (!drawObject) return
         drawObject.paddle.rightPressed = true;
         drawObject.paddle.movePaddle(canvas.width);
     } else if (e.key === "Left" || e.key === "ArrowLeft") {
+        if (!drawObject) return
         drawObject.paddle.leftPressed = true;
         drawObject.paddle.movePaddle(canvas.width);
     }
@@ -39,8 +41,10 @@ function keyDownHandler(e: KeyboardEvent) {
 
 function keyUpHandler(e: KeyboardEvent) {
     if (e.key === "Right" || e.key === "ArrowRight") {
+        if (!drawObject) return
         drawObject.paddle.rightPressed = false;
     } else if (e.key === "Left" || e.key === "ArrowLeft") {
+        if (!drawObject) return
         drawObject.paddle.leftPressed = false;
     }
 }
