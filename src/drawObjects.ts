@@ -1,6 +1,7 @@
 import { Ball } from "./Ball";
 import { Brick } from "./Brick";
 import { Paddle } from "./Paddle";
+import { Score } from "./Score";
 
 export class DrawObjects {
     private readonly ballRadius: number;
@@ -19,6 +20,7 @@ export class DrawObjects {
 
     private ball: Ball;
     private brick: Brick;
+    private score: Score;
     public paddle: Paddle;
 
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, interval: NodeJS.Timeout) {
@@ -38,6 +40,7 @@ export class DrawObjects {
         this.ball = new Ball(this.ballRadius, this.canvasWidth, this.canvasHeight)
         this.brick = new Brick(3, 5, 75, 20, 10, 30, 30);
         this.paddle = new Paddle(this.paddleX, this.paddleY, this.paddleWidth, this.paddleHeight)
+        this.score = new Score();
     }
 
     private calculateBoundary() {
@@ -54,10 +57,16 @@ export class DrawObjects {
         this.ball.drawBall(this.ctx)
         this.brick.drawBricks(this.ctx)
         this.paddle.drawPaddle(this.ctx, this.canvasHeight);
+        this.score.drawScore(this.ctx);
         this.calculateBoundary();
         const [ballPositionX, ballPositionY] = this.ball.getBallPosition();
         if (this.brick.detectBrickCollision(ballPositionX, ballPositionY)) {
             this.ball.reverseDirection();
+            this.score.addScore();
+            const currentScore = this.score.getScore();
+            if (currentScore >= this.brick.brickColumnCount * this.brick.brickRowCount) {
+                alert("YOU WIN, CONGRATULATIONS!");
+            }
         }
     }
 

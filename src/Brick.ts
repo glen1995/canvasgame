@@ -1,6 +1,6 @@
 export class Brick {
-    private readonly brickRowCount: number = 0;
-    private readonly brickColumnCount: number = 0;
+    public readonly brickRowCount: number = 0;
+    public readonly brickColumnCount: number = 0;
     private readonly brickWidth: number = 0;
     private readonly brickHeight: number = 0;
     private readonly brickPadding: number = 0;
